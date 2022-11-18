@@ -99,17 +99,47 @@ router.get('/stakeinfo/:address', async (req, res) => {
 })
 
 // api endpoint for retrieving total locked amount
-router.get('/totalAmount', async (req, res) => {
+router.get('/totalamount', async (req, res) => {
   try {
     const stakeInfo = await dynamoClient.scan({ TableName: "stake" }).promise()
     const tlamount = stakeInfo.Items.reduce((tla, item) => {
       return tla + item.amount
     }, 0)
-    res.json({ "data": tlamount })
+    res.json(tlamount)
   } catch (error) {
     console.error(error)
     res.status(500).json({ err: "Something went wrong" })
   }
 })
+
+// api endpoint for retrieving total aqulais power
+router.get('/totalap', async (req, res) => {
+  try {
+    const stakeInfo = await dynamoClient.scan({ TableName: "stake" }).promise()
+    const tapower = stakeInfo.Items.reduce((tap, item) => {
+      return tap + item.AP
+    }, 0)
+    res.json(tapower)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ err: "Something went wrong" })
+  }
+})
+
+// api endpoint for retrieving average locked weeks
+router.get('/averagelockedweeks', async (req, res) => {
+  try {
+    const stakeInfo = await dynamoClient.scan({ TableName: "stake" }).promise()
+    const tltime = stakeInfo.Items.reduce((tlt, item) => {
+      return tlt + item.weeks
+    }, 0)
+    res.json(tltime / stakeInfo.Items.length)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ err: "Something went wrong" })
+  }
+})
+
+
 
 module.exports = router
