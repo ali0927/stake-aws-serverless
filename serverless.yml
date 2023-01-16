@@ -1,0 +1,68 @@
+service: sls-stake
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+functions:
+  hello:
+    handler: handler.hello
+  create:
+    handler: handler.create
+    events:
+      - http:
+          path: stake
+          method: post
+          cors: true 
+  update:
+    handler: handler.update
+    events:
+      - http:
+          path: stake/{address}
+          method: put
+          cors: true
+  getOne: 
+    handler: handler.getOne
+    events:
+      - http:
+          path: stake/stakeinfo/{address}
+          method: get
+          cors: true
+  getAll:
+    handler: handler.getAll
+    events: 
+      - http:
+          path: stake
+          method: get
+          cors: true
+  delete:
+    handler: handler.delete
+    events:
+      - http:
+          path: stake/{address}
+          method: delete
+          cors: true
+  getTotalAmount: 
+    handler: handler.getTotalAmount
+    events:
+      - http:
+          path: stake/totalamount
+          method: get
+          cors: true
+  getTotalAP:
+    handler: handler.getTotalAP
+    events:
+      - http:
+          path: stake/totalap
+          method: get
+          cors: true
+  getAverageLockedWeeks:
+    handler: handler.getAverageLockedWeeks
+    events:
+      - http:
+          path: stake/averagelockedweeks
+          method: get
+          cors: true
+

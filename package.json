@@ -1,26 +1,16 @@
 {
-  "name": "backend",
+  "name": "sls-stake",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "handler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.212.0",
-    "@aws-sdk/lib-dynamodb": "^3.212.0",
-    "aws": "^0.0.3-2",
-    "aws-sdk": "^2.1256.0",
-    "cors": "^2.8.5",
+    "aws-sdk": "^2.1261.0",
     "dotenv": "^16.0.3",
-    "ethers": "^5.7.2",
-    "express": "^4.18.1",
-    "firebase": "^9.10.0",
-    "firebase-admin": "^11.0.1",
-    "mongodb": "^4.10.0",
-    "mongoose": "^6.6.2",
-    "nodemon": "^2.0.20"
+    "ethers": "^5.7.2"
   }
 }
