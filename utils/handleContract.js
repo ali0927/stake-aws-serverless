@@ -1,6 +1,6 @@
+require('dotenv').config();
 const { abi, address } = require('../lib/StakingContract.json')
 const ethers = require('ethers')
-require('dotenv').config()
 
 const goerliProvider = new ethers.providers.JsonRpcProvider(process.env.GOERLI_RPC)
 const StakingContract = new ethers.Contract(address['0x5'], abi, goerliProvider)

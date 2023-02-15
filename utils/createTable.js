@@ -1,9 +1,9 @@
+require('dotenv').config();
 const {
     DynamoDBClient,
     CreateTableCommand,
 } = require('@aws-sdk/client-dynamodb');
 
-require('dotenv').config()
 
 const client = new DynamoDBClient({
     credentials: {

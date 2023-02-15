@@ -1,7 +1,7 @@
 'use strict';
 
+require('dotenv').config();
 const AWS = require('aws-sdk')
-require('dotenv').config()
 const { getAP } = require('./utils/handleContract')
 
 AWS.config.update({

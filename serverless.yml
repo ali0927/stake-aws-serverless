@@ -1,4 +1,4 @@
-service: sls-stake
+service: aqualis-stake
 
 frameworkVersion: '3'
 
