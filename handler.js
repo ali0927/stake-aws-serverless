@@ -1,7 +1,7 @@
 'use strict';
 
-require('dotenv').config();
 const AWS = require('aws-sdk')
+require('dotenv').config()
 const { getAP } = require('./utils/handleContract')
 
 AWS.config.update({
@@ -16,15 +16,19 @@ module.exports.hello = async (event, context, callback) => {
   console.log('Hello world')
   callback(null, {
     statusCode: 200,
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    headers: {
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+    },
     body: 'Hello World'
   })
 };
-module.exports.create = async (_event, context, callback) => {
+module.exports.create = async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false
-  console.log(_event.body)
+  console.log(event.body)
   try {
-    let event = JSON.parse(_event.body)
+    event = JSON.parse(event.body)
     const AP = await getAP(event.address)
     const params = {
       TableName: "stake",
@@ -33,25 +37,31 @@ module.exports.create = async (_event, context, callback) => {
     const newInfo = await dynamoClient.put(params).promise()
     callback(null, {
       statusCode: 200,
-      headers: { 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: JSON.stringify(newInfo)
     })
   } catch (error) {
     callback(null, {
       statusCode: error.statusCode || 500,
       headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
         'Content-Type': 'text/plain'
       },
       body: JSON.stringify(error)
     })
   }
 }
-module.exports.update = async (_event, context, callback) => {
+module.exports.update = async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false
   try {
-    const { address } = _event.pathParameters
-    let event = JSON.parse(_event.body)
+    const { address } = event.pathParameters
+    event = JSON.parse(event.body)
     const AP = await getAP(address)
     event['AP'] = AP
     let updateExpression = 'set'
@@ -72,14 +82,20 @@ module.exports.update = async (_event, context, callback) => {
     const updateInfo = await dynamoClient.update(params).promise()
     callback(null, {
       statusCode: 200,
-      headers: { 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: JSON.stringify(updateInfo)
     })
   } catch (error) {
     callback(null, {
       statusCode: error.statusCode || 500,
       headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
         'Content-Type': 'text/plain'
       },
       body: JSON.stringify(error)
@@ -99,14 +115,20 @@ module.exports.getOne = async (event, context, callback) => {
     const stakeInfo = await dynamoClient.get(params).promise()
     callback(null, {
       statusCode: 200,
-      headers: { 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: JSON.stringify(stakeInfo)
     })
   } catch (error) {
     callback(null, {
       statusCode: error.statusCode || 500,
       headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
         'Content-Type': 'text/plain'
       },
       body: JSON.stringify(error)
@@ -121,14 +143,20 @@ module.exports.getAll = async (event, context, callback) => {
     const stakeInfo = await dynamoClient.scan(params).promise()
     callback(null, {
       statusCode: 200,
-      headers: { 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: JSON.stringify(stakeInfo)
     })
   } catch (error) {
     callback(null, {
       statusCode: error.statusCode || 500,
       headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
         'Content-Type': 'text/plain'
       },
       body: JSON.stringify(error)
@@ -147,14 +175,20 @@ module.exports.delete = async (event, context, callback) => {
     const deletedMember = await dynamoClient.delete(params).promise()
     callback(null, {
       statusCode: 200,
-      headers: { 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: JSON.stringify(deletedMember)
     })
   } catch (error) {
     callback(null, {
       statusCode: error.statusCode || 500,
       headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
         'Content-Type': 'text/plain'
       },
       body: JSON.stringify(error)
@@ -169,14 +203,20 @@ module.exports.getTotalAmount = async (event, context, callback) => {
     }, 0)
     callback(null, {
       statusCode: 200,
-      headers: { 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: tlamount
     })
   } catch (error) {
     callback(null, {
       statusCode: error.statusCode || 500,
       headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
         'Content-Type': 'text/plain'
       },
       body: JSON.stringify(error)
@@ -191,14 +231,20 @@ module.exports.getTotalAP = async (event, context, callback) => {
     }, 0)
     callback(null, {
       statusCode: 200,
-      headers: { 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: tapower
     })
   } catch (error) {
     callback(null, {
       statusCode: error.statusCode || 500,
       headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
         'Content-Type': 'text/plain'
       },
       body: JSON.stringify(error)
@@ -213,15 +259,21 @@ module.exports.getAverageLockedWeeks = async (event, context, callback) => {
     }, 0)
     callback(null, {
       statusCode: 200,
-      headers: { 'Access-Control-Allow-Origin': '*' },
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: tltime / stakeInfo.Items.length
     })
   } catch (error) {
     callback(null, {
       statusCode: error.statusCode || 500,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+        'Content-Type': 'text/plain'
       },
       body: JSON.stringify(error)
     })
